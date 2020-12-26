@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py test && python manage.py runserver 0.0.0.0:8000"
+    container_name: dop_mock_dir
+    links:
+      - redis:redis
+    volumes:
+      - .:/dop_mock_dir
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+  redis:
+    restart: always
+    image: redis:latest
+    expose:
+      - "6379"

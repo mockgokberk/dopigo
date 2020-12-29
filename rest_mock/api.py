@@ -24,14 +24,14 @@ class CustomerViewSet(viewsets.ViewSet):
         serializer = CustomerSerializer(queryset, many=True)
         return Response(serializer.data)
 
-    def retrieve(self, request, pk=None):
+    def retrieve(self, request, id=None):
         """
         Returns selected customer.
 
         [ref]: GET http://127.0.0.1/api/customers/{id}
         """
         queryset = Customer.objects.all()
-        customer = get_object_or_404(queryset, pk=pk)
+        customer = get_object_or_404(queryset, id=id)
         serializer = CustomerSerializer(customer)
         return Response(serializer.data)
 
@@ -45,7 +45,7 @@ class CustomerViewSet(viewsets.ViewSet):
         """
         serializer = CustomerSerializer(request.data)
         Customer(**serializer.data).save()
-        return Response(data="return data")
+        return Response(data="Success")
 
 
 class AccountsViewSet(viewsets.ViewSet):
@@ -60,14 +60,14 @@ class AccountsViewSet(viewsets.ViewSet):
         serializer = AccountSerializer(queryset, many=True)
         return Response(serializer.data)
 
-    def retrieve(self, request, pk=None):
+    def retrieve(self, request, id=None):
         """
         Returns selected account.
 
         [ref]: GET http://127.0.0.1/api/accounts/{id}
         """
         queryset = Account.objects.all()
-        account = get_object_or_404(queryset, id=pk)
+        account = get_object_or_404(queryset, id=id)
         serializer = AccountSerializer(account)
         return Response(serializer.data)
 
@@ -80,9 +80,11 @@ class AccountsViewSet(viewsets.ViewSet):
                    customer_id(FK): Integer
                    depozit: Float
         """
+        print(request.data)
         serializer = AccountSerializer(request.data)
         Account(**serializer.data).save()
-        return Response(data="return data")
+
+        return Response(data="Success")
 
 
 class BalanceHistoryViewSet(viewsets.ViewSet):
@@ -97,14 +99,14 @@ class BalanceHistoryViewSet(viewsets.ViewSet):
         serializer = BalanceHistorySerializer(queryset, many=True)
         return Response(serializer.data)
 
-    def retrieve(self, request, pk=None):
+    def retrieve(self, request, id=None):
         """
         Returns a list of one account transfer history.
 
         [ref]: GET http://127.0.0.1/api/history_balance/{account_id}
         """
         queryset = BalanceHistory.objects.all()
-        balance_history = get_object_or_404(queryset, account_id=pk)
+        balance_history = get_object_or_404(queryset, account_id=id)
         serializer = BalanceHistorySerializer(balance_history)
         return Response(serializer.data)
 

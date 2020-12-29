@@ -20,10 +20,13 @@ class CustomerSerializer(serializers.ModelSerializer):
 
 
 class AccountSerializer(serializers.ModelSerializer):
-
+    customer = CustomerSerializer(read_only=True, many=True)
+    
     class Meta:
         model = Account
-        fields = ['id', 'deposit', 'customer_id']
+        fields = ['id', 'deposit', 'customer']
+
+
 
 
 class BalanceHistorySerializer(serializers.ModelSerializer):
